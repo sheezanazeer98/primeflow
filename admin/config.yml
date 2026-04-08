@@ -1,0 +1,101 @@
+# local_backend: true
+
+backend:
+  name: git-gateway
+  branch: main
+
+publish_mode: editorial_workflow
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+site_url: https://www.primeflowplumbing.com
+display_url: https://www.primeflowplumbing.com
+logo_url: /images/logo.png
+
+collections:
+  - name: "blog"
+    label: "Blog Posts"
+    label_singular: "Blog Post"
+    folder: "content/blog"
+    create: true
+    delete: true
+    slug: "{{fields.slug}}"
+    extension: "md"
+    format: "frontmatter"
+    editor:
+      preview: true
+    sortable_fields: ["date", "title"]
+    summary: "{{title}} — {{date}}"
+    fields:
+      - label: "Title"
+        name: "title"
+        widget: "string"
+        required: true
+
+      - label: "Publish Date"
+        name: "date"
+        widget: "datetime"
+        required: true
+
+      - label: "URL Slug"
+        name: "slug"
+        widget: "string"
+        required: true
+        hint: "URL-friendly name (e.g., 'frozen-pipe-prevention-tips'). Use lowercase letters, numbers, and hyphens only."
+        pattern: ['^[a-z0-9]+(?:-[a-z0-9]+)*$', "Must be lowercase with hyphens (e.g., 'my-blog-post')"]
+
+      - label: "Description"
+        name: "description"
+        widget: "text"
+        required: false
+        hint: "Short description for SEO and social sharing (150-160 characters recommended)."
+
+      - label: "Featured Image"
+        name: "image"
+        widget: "image"
+        required: false
+        hint: "Recommended size: 1200x630 pixels."
+
+      - label: "Category"
+        name: "category"
+        widget: "select"
+        required: false
+        options:
+          - { label: "Plumbing Tips", value: "tips" }
+          - { label: "Emergency Plumbing", value: "emergency" }
+          - { label: "Water Heaters", value: "water-heaters" }
+          - { label: "Drain & Sewer", value: "drains" }
+          - { label: "Seasonal Maintenance", value: "seasonal" }
+          - { label: "Home Improvement", value: "home-improvement" }
+          - { label: "Commercial Plumbing", value: "commercial" }
+          - { label: "Water Quality", value: "water-quality" }
+          - { label: "News & Updates", value: "news" }
+
+      - label: "Tags"
+        name: "tags"
+        widget: "list"
+        required: false
+        hint: "Comma-separated tags (e.g., winter, maintenance, emergency)"
+
+      - label: "Body"
+        name: "body"
+        widget: "markdown"
+        required: true
+
+  - name: "pages"
+    label: "Pages"
+    files:
+      - label: "Home Page"
+        name: "home"
+        file: "content/pages/home.md"
+        fields:
+          - { label: "Hero Title", name: "heroTitle", widget: "string" }
+          - { label: "Hero Subtitle", name: "heroSubtitle", widget: "text" }
+
+      - label: "About Page"
+        name: "about"
+        file: "content/pages/about.md"
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Body", name: "body", widget: "markdown" }

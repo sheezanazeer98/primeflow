@@ -1,0 +1,14 @@
+# PrimeFlow Plumbing — Redirects
+
+# Legacy .html redirects
+/index.html          /           301
+/about.html          /about      301
+/services.html       /services   301
+/contact.html        /contact    301
+/blog.html           /blog       301
+
+# Admin
+/admin/*    /admin/:splat    200
+
+# SPA fallback — all routes handled by client-side router
+/*    /index.html    200
