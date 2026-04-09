@@ -715,7 +715,8 @@
 
   function initContactForm() {
     var form = document.getElementById('contact-form');
-    if (!form) return;
+    if (!form || form.getAttribute('data-handler-bound') === 'true') return;
+    form.setAttribute('data-handler-bound', 'true');
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var nameInput = form.querySelector('[name="name"]');
@@ -734,7 +735,14 @@
       submitBtn.innerHTML = '<svg class="animate-spin w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg> Sending...';
       submitBtn.disabled = true;
       var formData = new FormData(form);
-      fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(formData).toString() })
+      fetch('/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Accept: 'application/json'
+        },
+        body: new URLSearchParams(formData).toString()
+      })
         .then(function (response) {
           if (response.ok) {
             form.parentElement.innerHTML = '<div class="text-center py-12"><div class="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4"><svg class="w-8 h-8 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg></div><h3 class="heading-md text-gray-900 mb-2">Thank You!</h3><p class="text-gray-600 mb-6">Your message has been sent. We\'ll respond within 24 hours.</p><a href="/" class="btn-teal">Back to Home</a></div>';

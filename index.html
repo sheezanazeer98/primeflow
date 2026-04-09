@@ -39,9 +39,15 @@
   <main id="app"></main>
   <div id="site-footer"></div>
 
-  <form name="contact" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <!-- Static form for Netlify build-time detection (keep in sync with #contact-form fields) -->
+  <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
     <input type="hidden" name="form-name" value="contact">
-    <input name="bot-field"><input name="name"><input name="email"><input name="phone"><input name="service"><textarea name="message"></textarea>
+    <input name="bot-field" value="">
+    <input type="text" name="name">
+    <input type="email" name="email">
+    <input type="tel" name="phone">
+    <input type="text" name="service">
+    <textarea name="message"></textarea>
   </form>
 
   <!-- ==================== HOME ==================== -->
@@ -421,7 +427,7 @@
             <h2 class="heading-md mb-6">Send Us a Message</h2>
             <div id="form-error-notice" class="hidden bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6"><p class="font-medium">Something went wrong. Please try again or call us directly.</p></div>
             <div>
-              <form id="contact-form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+              <form id="contact-form" name="contact" method="POST" netlify-honeypot="bot-field">
                 <input type="hidden" name="form-name" value="contact">
                 <p class="hidden"><label>Don't fill this out: <input name="bot-field"></label></p>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
@@ -630,11 +636,20 @@
 
   <!-- ==================== SCRIPTS ==================== -->
   <script>
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on("init", function(user) {
-        if (!user) { window.netlifyIdentity.on("login", function() { document.location.href = "/admin/"; }); }
+    (function () {
+      if (!window.netlifyIdentity) return;
+      window.netlifyIdentity.init({
+        locale: 'en',
+        logo: window.location.origin + '/images/logo.png'
       });
-    }
+      window.netlifyIdentity.on('init', function (user) {
+        if (!user) {
+          window.netlifyIdentity.on('login', function () {
+            document.location.href = '/admin/';
+          });
+        }
+      });
+    })();
   </script>
   <script src="/js/config.js"></script>
   <script src="/js/components.js"></script>
