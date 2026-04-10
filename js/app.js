@@ -329,7 +329,7 @@
       return '<div class="flex items-start gap-4" data-animate>' +
         '<div class="w-10 h-10 bg-teal-600 text-white rounded-xl flex items-center justify-center font-bold flex-shrink-0">' + (i + 1) + '</div>' +
         '<div class="pt-2"><p class="font-semibold text-gray-900">' + step + '</p></div></div>';
-    }).join('');
+      }).join('');
 
     var faqs = svc.faqs.map(function(faq, i) {
       return '<div class="faq-item" data-animate>' +
@@ -631,7 +631,7 @@
     if (postContentCache[slug]) return Promise.resolve(postContentCache[slug]);
     return fetch('/content/blog/' + slug + '.md').then(function (res) {
       if (!res.ok) throw new Error('Not found');
-      return res.text();
+        return res.text();
     }).then(function (text) { postContentCache[slug] = text; return text; });
   }
 
@@ -694,12 +694,12 @@
   function fetchPosts() {
     if (postsCache) return Promise.resolve(postsCache);
     return fetch('/data/posts.json').then(function (r) {
-      if (!r.ok) throw new Error('Failed');
-      return r.json();
+        if (!r.ok) throw new Error('Failed');
+        return r.json();
     }).then(function (posts) {
       postsCache = posts.sort(function (a, b) { return new Date(b.date) - new Date(a.date); });
-      return postsCache;
-    });
+        return postsCache;
+      });
   }
 
   function loadMarked() {
